@@ -18,22 +18,46 @@ namespace ZeShop.Controllers
             }
         }
 
-        [HttpPatch]
-        public IActionResult Patch(List<ProductRow> productRows)
+        [HttpPatch("{id}")]
+        public IActionResult Patch(int id)
         {
             try
             {
-                foreach (var item in productRows)
+                var product = GlobalVariables.Products.Find(x => x.Id == id);
+                if (product == null)
                 {
-                    var product = GlobalVariables.Products.Find(x => x.Id == item.ProductId);
-                    if (item.Amount < 1 || product == null)
-                    {
-                        return BadRequest("Bad values");
-                    }
-                    item.Product = product;
+                    return NotFound("Product doesn't exist");
+                }
+                var productRow = GlobalVariables.Basket.ProductRows.Find(x => x.ProductId == id);
+                if (productRow == null)
+                {
+                    GlobalVariables.Basket.ProductRows.Add(new ProductRow { ProductId = id, Amount = 1, Product = product});
+                }
+                else
+                {
+                    productRow.Amount++;
                 }
 
-                GlobalVariables.Basket.ProductRows.AddRange(productRows);
+                return Ok(GlobalVariables.Basket);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpPatch("{id}/ChangeAmount")]
+        public IActionResult AddAmount(int id, int amount)
+        {
+            try
+            {
+                var product = GlobalVariables.Products.Find(x => x.Id == id);
+                if (product == null)
+                {
+                    return NotFound("Add product first");
+                }
+
+                GlobalVariables.Basket.ProductRows.Add(new ProductRow { ProductId = product.Id.Value, Amount = amount, Product = product });
 
                 return Ok(GlobalVariables.Basket);
             }
