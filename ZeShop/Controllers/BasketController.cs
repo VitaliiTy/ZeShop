@@ -28,6 +28,10 @@ namespace ZeShop.Controllers
                 {
                     return NotFound("Product doesn't exist");
                 }
+                else if (product.Amount < 1)
+                {
+                    return BadRequest("Not enough products");   
+                }
                 var productRow = GlobalVariables.Basket.ProductRows.Find(x => x.ProductId == id);
                 if (productRow == null)
                 {
@@ -55,6 +59,10 @@ namespace ZeShop.Controllers
                 if (product == null)
                 {
                     return NotFound("Add product first");
+                }
+                else if (product.Amount < amount)
+                {
+                    return BadRequest("Not enough products");
                 }
 
                 GlobalVariables.Basket.ProductRows.Add(new ProductRow { ProductId = product.Id.Value, Amount = amount, Product = product });

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using ZeShop.Models;
 
 namespace ZeShop.Controllers
@@ -54,12 +55,16 @@ namespace ZeShop.Controllers
                     }
                     item.Product = product;
                 }
-
                 var order = new Order
                 {
                     ProductRows = productRows,
                     Id = GlobalVariables.Orders.Count + 1
                 };
+
+                foreach (var item in productRows)
+                {
+                    GlobalVariables.Products.Where(x => x.Id == item.ProductId).Single().Amount -= item.Amount;
+                }
 
                 GlobalVariables.Orders.Add(order);
                 return Ok(order);
