@@ -2,5 +2,6 @@
 {
     public class Basket
     {
+        public List<ProductRow> ProductRows { get; set; }
     }
 }

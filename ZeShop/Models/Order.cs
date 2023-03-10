@@ -3,6 +3,6 @@
     public class Order
     {
         public int? Id { get; set; }
-        public List<OrderRow> OrderRows { get; set; }
+        public List<ProductRow> ProductRows { get; set; }
     }
 }

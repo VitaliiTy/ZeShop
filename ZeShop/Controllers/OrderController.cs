@@ -37,15 +37,15 @@ namespace ZeShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(List<OrderRow> orderRows)
+        public IActionResult Create(List<ProductRow> productRows)
         {
             try
             {
-                if (orderRows.FirstOrDefault() == null)
+                if (productRows.FirstOrDefault() == null)
                 {
                     return BadRequest("Missing required params");
                 }
-                foreach (var item in orderRows)
+                foreach (var item in productRows)
                 {
                     var product = GlobalVariables.Products.Find(x => x.Id == item.ProductId);
                     if (item.Amount < 1 || product == null)
@@ -57,7 +57,7 @@ namespace ZeShop.Controllers
 
                 var order = new Order
                 {
-                    OrderRows = orderRows,
+                    ProductRows = productRows,
                     Id = GlobalVariables.Orders.Count + 1
                 };
 

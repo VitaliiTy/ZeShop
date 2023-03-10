@@ -1,9 +1,9 @@
 ﻿namespace ZeShop.Models
 {
-    public class OrderRow
+    public class ProductRow
     {
         public int ProductId { get; set; }
         public int Amount { get; set; }
-        public Product? Product { get; set; }
+        public Product Product { get; set; }
     }
 }
