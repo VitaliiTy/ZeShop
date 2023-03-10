@@ -3,7 +3,7 @@ using ZeShop.Models;
 
 namespace ZeShop.Controllers
 {
-    public class OrderController : ApiController
+    public class OrdersController : ApiController
     {
         [HttpGet]
         public IActionResult Get()
